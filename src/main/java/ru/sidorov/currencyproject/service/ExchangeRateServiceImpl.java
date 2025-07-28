@@ -1,0 +1,28 @@
+package ru.sidorov.currencyproject.service;
+
+import org.springframework.stereotype.Service;
+import ru.sidorov.currencyproject.entity.ExchangeRate;
+import ru.sidorov.currencyproject.exception.EntityNotFoundException;
+import ru.sidorov.currencyproject.repository.ExchangeRateRepository;
+
+import java.util.List;
+import java.util.UUID;
+
+@Service
+public class ExchangeRateServiceImpl implements ExchangeRateService {
+    private ExchangeRateRepository exchangeRateRepository;
+
+    public ExchangeRateServiceImpl(ExchangeRateRepository exchangeRateRepository) {
+        this.exchangeRateRepository = exchangeRateRepository;
+    }
+
+    @Override
+    public ExchangeRate getById(UUID id) {
+        return exchangeRateRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Exchange rate with id %s not found", id)));
+    }
+
+    @Override
+    public List<ExchangeRate> getAll() {
+        return exchangeRateRepository.findAll();
+    }
+}

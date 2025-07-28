@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/2025-07-20-01-Create-Tables.yaml
+  - include:
+      file: db/changelog/2025-07-28-01-Update-Tables.yaml

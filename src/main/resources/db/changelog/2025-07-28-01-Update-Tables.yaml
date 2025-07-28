@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 02
+      author: SVU
+      changes:
+        - renameColumn:
+            tableName: exchange_rate
+            oldColumnName: data
+            newColumnName: date

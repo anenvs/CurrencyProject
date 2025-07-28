@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: 01
+      author: SVU
+      changes:
+        - createTable:
+            tableName: currency
+            columns:
+              - column:
+                  name: code
+                  type: varchar(3)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: exchange_rate
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: currency_code
+                  type: varchar(3)
+                  constraints:
+                    nullable: false
+                    references: currency(code)
+                    foreignKeyName: fk_exchange_rate_currency
+              - column:
+                  name: rate
+                  type: decimal(19,6)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: conversion
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: from_currency
+                  type: varchar(3)
+                  constraints:
+                    nullable: false
+                    references: currency(code)
+                    foreignKeyName: fk_conversion_from_currency
+              - column:
+                  name: to_currency
+                  type: varchar(3)
+                  constraints:
+                    nullable: false
+                    references: currency(code)
+                    foreignKeyName: fk_conversion_to_currency
+              - column:
+                  name: amount
+                  type: decimal(19, 6)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: converted_amount
+                  type: decimal(19, 6)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rate
+                  type: decimal(19, 6)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
