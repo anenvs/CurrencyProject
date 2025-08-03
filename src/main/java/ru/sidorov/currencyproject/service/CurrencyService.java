@@ -1,10 +1,12 @@
 package ru.sidorov.currencyproject.service;
 
-import ru.sidorov.currencyproject.entity.Currency;
+import ru.sidorov.currencyproject.dto.CurrencyRequestDto;
+import ru.sidorov.currencyproject.dto.CurrencyResponseDto;
 
 import java.util.List;
 
 public interface CurrencyService {
-   Currency getByCode(String code);
-   List<Currency> getAllCurrencies();
+   CurrencyResponseDto getByCode(String code);
+   List<CurrencyResponseDto> getAllCurrencies();
+   CurrencyResponseDto createCurrency(CurrencyRequestDto currencyRequestDto);
 }

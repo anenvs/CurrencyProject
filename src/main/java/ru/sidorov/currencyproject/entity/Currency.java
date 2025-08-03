@@ -12,7 +12,7 @@ import lombok.Setter;
 @Table(name = "currency")
 //@Getter
 //@Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 public class Currency {
     @Id
     @Column(name = "code", length = 3, nullable = false)
@@ -20,6 +20,14 @@ public class Currency {
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;
+
+    public Currency() {
+    }
+
+    public Currency(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 
     public String getCode() {
         return code;

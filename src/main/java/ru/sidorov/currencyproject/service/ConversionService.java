@@ -1,5 +1,6 @@
 package ru.sidorov.currencyproject.service;
 
+import ru.sidorov.currencyproject.dto.ConversionRequestDto;
 import ru.sidorov.currencyproject.entity.Conversion;
 
 import java.util.List;
@@ -9,4 +10,5 @@ public interface ConversionService {
     Conversion getById(UUID id);
     List<Conversion> getAllConversions();
     Conversion update(Conversion conversion);
+    Conversion create(ConversionRequestDto conversionRequestDto);
 }

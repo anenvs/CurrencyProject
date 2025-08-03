@@ -1,11 +1,9 @@
 package ru.sidorov.currencyproject.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.sidorov.currencyproject.entity.Currency;
+import org.springframework.web.bind.annotation.*;
+import ru.sidorov.currencyproject.dto.CurrencyRequestDto;
+import ru.sidorov.currencyproject.dto.CurrencyResponseDto;
 import ru.sidorov.currencyproject.service.CurrencyService;
 
 import java.util.List;
@@ -20,12 +18,17 @@ public class CurrencyController {
     }
 
     @GetMapping("/{code}")
-    ResponseEntity<Currency> getByCode(@PathVariable String code) {
+    ResponseEntity<CurrencyResponseDto> getByCode(@PathVariable String code) {
         return ResponseEntity.ok(currencyService.getByCode(code));
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<Currency>> getAll() {
+    ResponseEntity<List<CurrencyResponseDto>> getAll() {
         return ResponseEntity.ok(currencyService.getAllCurrencies());
+    }
+
+    @PostMapping("/create")
+    ResponseEntity<CurrencyResponseDto> create(@RequestBody CurrencyRequestDto currencyRequestDto) {
+        return ResponseEntity.ok(currencyService.createCurrency(currencyRequestDto));
     }
 }
