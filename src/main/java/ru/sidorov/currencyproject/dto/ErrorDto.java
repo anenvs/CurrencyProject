@@ -1,39 +1,62 @@
 package ru.sidorov.currencyproject.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
+@Schema(description = "DTO для передачи информации об ошибке")
 public class ErrorDto {
+    @Schema(
+            description = "Сообщение об ошибке",
+            example = "Currency not found"
+    )
     private String message;
+
+    @Schema(
+            description = "Временная метка возникновения ошибки",
+            example = "2023-05-15T14:30:45.123456"
+    )
     private LocalDateTime timestamp;
+
+    @Schema(
+            description = "HTTP статус код ошибки",
+            example = "404"
+    )
     private int status;
 
-    public ErrorDto(String message, LocalDateTime timestamp, int status) {
-        this.message = message;
-        this.timestamp = timestamp;
-        this.status = status;
+    private ErrorDto(Builder builder) {
+        this.message = builder.message;
+        this.timestamp = builder.timestamp;
+        this.status = builder.status;
     }
 
-    public String getMessage() {
-        return message;
-    }
+    public static class Builder{
+        private String message;
+        private LocalDateTime timestamp;
+        private int status;
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+        public Builder message(String message){
+            this.message = message;
+            return this;
+        }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
+        public Builder timestamp(LocalDateTime timestamp){
+            this.timestamp = timestamp;
+            return this;
+        }
+        public Builder status(int status){
+            this.status = status;
+            return this;
+        }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
+        public ErrorDto build(){
+            return new ErrorDto(this);
+        }
 
-    public int getStatus() {
-        return status;
     }
-
-    public void setStatus(int status) {
-        this.status = status;
+    public static Builder builder() {
+        return new Builder();
     }
 }

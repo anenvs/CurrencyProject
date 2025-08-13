@@ -11,8 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "conversion")
-//@Getter
-//@Setter
+@Getter
+@Setter
 @NoArgsConstructor
 public class Conversion {
     @Id
@@ -39,59 +39,4 @@ public class Conversion {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Currency getFromCurrency() {
-        return fromCurrency;
-    }
-
-    public void setFromCurrency(Currency fromCurrency) {
-        this.fromCurrency = fromCurrency;
-    }
-
-    public Currency getToCurrency() {
-        return toCurrency;
-    }
-
-    public void setToCurrency(Currency toCurrency) {
-        this.toCurrency = toCurrency;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public BigDecimal getConvertedAmount() {
-        return convertedAmount;
-    }
-
-    public void setConvertedAmount(BigDecimal convertedAmount) {
-        this.convertedAmount = convertedAmount;
-    }
-
-    public BigDecimal getRate() {
-        return rate;
-    }
-
-    public void setRate(BigDecimal rate) {
-        this.rate = rate;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
 }

@@ -1,8 +1,12 @@
 package ru.sidorov.currencyproject.controller;
 
+import jakarta.validation.Payload;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.sidorov.currencyproject.dto.ConversionRequestDto;
+import ru.sidorov.currencyproject.dto.ConversionResponseDto;
 import ru.sidorov.currencyproject.entity.Conversion;
 import ru.sidorov.currencyproject.service.ConversionService;
 
@@ -23,7 +27,8 @@ public class ConversionController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<Conversion> create(@RequestBody ConversionRequestDto conversionRequestDto) {
+    ResponseEntity<ConversionResponseDto> create(@RequestBody @Validated ConversionRequestDto conversionRequestDto) {
         return ResponseEntity.ok(conversionService.create(conversionRequestDto));
     }
+
 }

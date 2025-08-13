@@ -2,6 +2,7 @@ package ru.sidorov.currencyproject.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.sidorov.currencyproject.dto.ConversionRequestDto;
+import ru.sidorov.currencyproject.dto.ConversionResponseDto;
 import ru.sidorov.currencyproject.entity.Conversion;
 import ru.sidorov.currencyproject.entity.Currency;
 import ru.sidorov.currencyproject.exception.EntityNotFoundException;
@@ -28,5 +29,16 @@ public class ConversionMapper {
         conversion.setRate(requestDto.getRate());
         conversion.setDate(LocalDateTime.now());
         return conversion;
+    }
+
+    public ConversionResponseDto toConversionResponse(Conversion savedConversion) {
+        return new ConversionResponseDto(
+                savedConversion.getId(),
+                savedConversion.getFromCurrency().getCode(),
+                savedConversion.getToCurrency().getCode(),
+                savedConversion.getAmount(),
+                savedConversion.getConvertedAmount(),
+                savedConversion.getRate()
+        );
     }
 }
