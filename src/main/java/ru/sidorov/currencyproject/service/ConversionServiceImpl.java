@@ -6,41 +6,43 @@ import ru.sidorov.currencyproject.dto.ConversionResponseDto;
 import ru.sidorov.currencyproject.entity.Conversion;
 import ru.sidorov.currencyproject.exception.EntityNotFoundException;
 import ru.sidorov.currencyproject.mapper.ConversionMapper;
-import ru.sidorov.currencyproject.mapper.ConversionMapperV2;
 import ru.sidorov.currencyproject.repository.ConversionRepository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ConversionServiceImpl implements ConversionService {
     private final ConversionRepository conversionRepository;
-    private final ConversionMapperV2 conversionMapperV2;
+    private final ConversionMapper conversionMapper;
 
-    public ConversionServiceImpl(ConversionRepository conversionRepository, ConversionMapperV2 conversionMapperV2) {
+    public ConversionServiceImpl(ConversionRepository conversionRepository, ConversionMapper conversionMapper) {
         this.conversionRepository = conversionRepository;
-        this.conversionMapperV2 = conversionMapperV2;
+        this.conversionMapper = conversionMapper;
     }
 
     @Override
-    public Conversion getById(UUID id) {
-        return conversionRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Conversion with id %s not found", id)));
+    public ConversionResponseDto getById(UUID id) {
+        return conversionRepository.findById(id).map(conversionMapper::toConversionResponse).orElseThrow(() -> new EntityNotFoundException(String.format("Conversion with id %s not found", id)));
     }
 
     @Override
-    public List<Conversion> getAllConversions() {
-        return conversionRepository.findAll();
+    public List<ConversionResponseDto> getAllConversions() {
+        return conversionRepository.findAll().stream()
+                .map(conversionMapper::toConversionResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Conversion update(Conversion conversion) {
+    public ConversionResponseDto update(ConversionRequestDto conversionRequestDto) {
         return null;
     }
 
     @Override
     public ConversionResponseDto create(ConversionRequestDto conversionRequestDto) {
-        Conversion conversion = conversionMapperV2.toConversion(conversionRequestDto);
+        Conversion conversion = conversionMapper.toConversion(conversionRequestDto);
         Conversion savedConversion = conversionRepository.save(conversion);
-        return conversionMapperV2.toConversionResponse(savedConversion);
+        return conversionMapper.toConversionResponse(savedConversion);
     }
 }

@@ -32,13 +32,13 @@ public class ConversionMapper {
     }
 
     public ConversionResponseDto toConversionResponse(Conversion savedConversion) {
-        return new ConversionResponseDto(
-                savedConversion.getId(),
-                savedConversion.getFromCurrency().getCode(),
-                savedConversion.getToCurrency().getCode(),
-                savedConversion.getAmount(),
-                savedConversion.getConvertedAmount(),
-                savedConversion.getRate()
-        );
+        return ConversionResponseDto.builder()
+                .id(savedConversion.getId())
+                .fromCurrencyCode(savedConversion.getFromCurrency().getCode())
+                .toCurrencyCode(savedConversion.getToCurrency().getCode())
+                .amount(savedConversion.getAmount())
+                .convertedAmount(savedConversion.getConvertedAmount())
+                .rate(savedConversion.getRate())
+                .build();
     }
 }

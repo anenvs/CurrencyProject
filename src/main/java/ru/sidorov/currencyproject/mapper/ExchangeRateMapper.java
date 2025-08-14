@@ -2,6 +2,7 @@ package ru.sidorov.currencyproject.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.sidorov.currencyproject.dto.ExchangeRateRequestDto;
+import ru.sidorov.currencyproject.dto.ExchangeRateResponseDto;
 import ru.sidorov.currencyproject.entity.Currency;
 import ru.sidorov.currencyproject.entity.ExchangeRate;
 import ru.sidorov.currencyproject.exception.EntityNotFoundException;
@@ -24,5 +25,12 @@ public class ExchangeRateMapper {
         exchangeRate.setRate(exchangeRateRequestDto.getRate());
         exchangeRate.setDate(LocalDateTime.now());
         return exchangeRate;
+    }
+
+    public ExchangeRateResponseDto toExchangeRateResponseDto(ExchangeRate exchangeRate) {
+        return new ExchangeRateResponseDto(
+                exchangeRate.getCurrency().getName(),
+                exchangeRate.getRate()
+        );
     }
 }
