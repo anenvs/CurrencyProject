@@ -12,6 +12,6 @@ public class CurrencyMapper {
     }
 
     public Currency toCurrency(CurrencyRequestDto dto) {
-        return new Currency(dto.getCode(),dto.getName());
+        return new Currency(dto.getCode(), dto.getName());
     }
 }
