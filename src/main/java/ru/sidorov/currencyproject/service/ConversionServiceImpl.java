@@ -1,11 +1,14 @@
 package ru.sidorov.currencyproject.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.sidorov.currencyproject.config.metrics.CounterMetrics;
 import ru.sidorov.currencyproject.dto.ConversionRequestDto;
 import ru.sidorov.currencyproject.dto.ConversionResponseDto;
 import ru.sidorov.currencyproject.entity.Conversion;
 import ru.sidorov.currencyproject.exception.EntityNotFoundException;
 import ru.sidorov.currencyproject.mapper.ConversionMapper;
+import ru.sidorov.currencyproject.mapper.ConversionMapperV2;
 import ru.sidorov.currencyproject.repository.ConversionRepository;
 
 import java.util.List;
@@ -16,10 +19,12 @@ import java.util.stream.Collectors;
 public class ConversionServiceImpl implements ConversionService {
     private final ConversionRepository conversionRepository;
     private final ConversionMapper conversionMapper;
+    private final CounterMetrics counterMetrics;
 
-    public ConversionServiceImpl(ConversionRepository conversionRepository, ConversionMapper conversionMapper) {
+    public ConversionServiceImpl(ConversionRepository conversionRepository, ConversionMapper conversionMapper, CounterMetrics counterMetrics) {
         this.conversionRepository = conversionRepository;
         this.conversionMapper = conversionMapper;
+        this.counterMetrics = counterMetrics;
     }
 
     @Override
@@ -43,6 +48,7 @@ public class ConversionServiceImpl implements ConversionService {
     public ConversionResponseDto create(ConversionRequestDto conversionRequestDto) {
         Conversion conversion = conversionMapper.toConversion(conversionRequestDto);
         Conversion savedConversion = conversionRepository.save(conversion);
+        counterMetrics.incrementConversion();
         return conversionMapper.toConversionResponse(savedConversion);
     }
 }

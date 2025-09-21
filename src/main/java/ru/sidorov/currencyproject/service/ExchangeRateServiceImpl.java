@@ -1,11 +1,12 @@
 package ru.sidorov.currencyproject.service;
 
 import org.springframework.stereotype.Service;
+import ru.sidorov.currencyproject.config.metrics.CounterMetrics;
 import ru.sidorov.currencyproject.dto.ExchangeRateRequestDto;
 import ru.sidorov.currencyproject.dto.ExchangeRateResponseDto;
 import ru.sidorov.currencyproject.entity.ExchangeRate;
 import ru.sidorov.currencyproject.exception.EntityNotFoundException;
-import ru.sidorov.currencyproject.mapper.ExchangeRateMapper;
+import ru.sidorov.currencyproject.mapper.ExchangeRateMapperV2;
 import ru.sidorov.currencyproject.repository.ExchangeRateRepository;
 
 import java.util.List;
@@ -15,11 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class ExchangeRateServiceImpl implements ExchangeRateService {
     private final ExchangeRateRepository exchangeRateRepository;
-    private final ExchangeRateMapper exchangeRateMapper;
+    private final ExchangeRateMapperV2 exchangeRateMapper;
+    private final CounterMetrics counterMetrics;
 
-    public ExchangeRateServiceImpl(ExchangeRateRepository exchangeRateRepository, ExchangeRateMapper exchangeRateMapper) {
+    public ExchangeRateServiceImpl(ExchangeRateRepository exchangeRateRepository, ExchangeRateMapperV2 exchangeRateMapper, CounterMetrics counterMetrics) {
         this.exchangeRateRepository = exchangeRateRepository;
         this.exchangeRateMapper = exchangeRateMapper;
+        this.counterMetrics = counterMetrics;
     }
 
     @Override
@@ -38,6 +41,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     @Override
     public ExchangeRateResponseDto create(ExchangeRateRequestDto exchangeRateRequestDto) {
         ExchangeRate exchangeRate = exchangeRateMapper.toExchangeRate(exchangeRateRequestDto);
+        counterMetrics.incrementExchangeRateUpdate();
         return exchangeRateMapper.toExchangeRateResponseDto(exchangeRate);
     }
 }

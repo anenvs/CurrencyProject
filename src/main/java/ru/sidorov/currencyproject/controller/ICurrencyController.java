@@ -71,7 +71,7 @@ public interface ICurrencyController {
             )
     })
     @PostMapping("/create")
-    ResponseEntity<CurrencyResponseDto> create(
+    ResponseEntity<Void> create(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Данные для создания валюты",
                     required = true,

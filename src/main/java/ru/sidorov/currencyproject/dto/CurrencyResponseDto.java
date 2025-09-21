@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -33,5 +35,10 @@ public class CurrencyResponseDto {
             example = "Официальная валюта Соединенных Штатов Америки."
     )
     private String description;
-
+    @Schema(
+            title = "Текущая дата",
+            description = "Дата на момент запроса",
+            example = "2022-04-20T15:30:56.849196100"
+    )
+    private LocalDateTime date;
 }

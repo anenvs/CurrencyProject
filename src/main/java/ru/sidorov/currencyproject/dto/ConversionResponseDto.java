@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @EqualsAndHashCode
@@ -54,4 +55,10 @@ public class ConversionResponseDto {
             example = "0.85"
     )
     private BigDecimal rate;
+    @Schema(
+            title = "Текущая дата",
+            description = "Дата на момент запроса",
+            example = "2022-04-20T15:30:56.849196100"
+    )
+    private LocalDateTime date;
 }
