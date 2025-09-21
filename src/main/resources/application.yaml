@@ -1,4 +1,7 @@
+
 spring:
+  application:
+    name: currencyService
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/CurrencyDB
@@ -14,6 +17,66 @@ spring:
     enabled: true
     default-schema: public
 
-#logging:
-#  level:
+  cloud:
+    openfeign:
+      client:
+        config:
+          hello-api-client:
+            url: http://localhost:8082
+            read-timeout: 5000
+            connect-timeout: 5000
+            path: "/hello"
+            logger-level: full
+
+    function:
+      definition: currencyRequestDto;conversionRequestDto #currencyRequestDto;currencyRequestDto2
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:29092
+          #auto-create-topics: false
+      bindings:
+        currencyRequestDto-in-0:
+          destination: new.currency.event
+          contentType: application/json
+          group: ${spring.application.name}-group
+          useNativeDecoding: true
+          consumer:
+            autoCommitOffset: false
+            backOffInitialInterval: 10000
+            maxAttempts: 3
+            enableDlq: false
+            startOffset: latest
+            ackMode: MANUAL
+        currency-producer-out-0:
+          destination: new.currency.event
+        conversionRequestDto-in-0:
+          destination: new.conversion.event
+          contentType: application/json
+          group: ${spring.application.name}-group
+          useNativeDecoding: true
+          consumer:
+            autoCommitOffset: false
+            backOffInitialInterval: 10000
+            maxAttempts: 3
+            enableDlq: false
+            startOffset: latest
+            ackMode: MANUAL
+        conversion-producer-out-0:
+          destination: new.conversion.event
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: project
+
+logging:
+  level:
+    root: info
+server:
+  port: 8080
 #    root: debug

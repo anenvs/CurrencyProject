@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -30,4 +31,10 @@ public class ExchangeRateResponseDto {
             example = "0.85"
     )
     private BigDecimal rate;
+    @Schema(
+            title = "Текущая дата",
+            description = "Дата на момент запроса",
+            example = "2022-04-20T15:30:56.849196100"
+    )
+    private LocalDateTime date;
 }

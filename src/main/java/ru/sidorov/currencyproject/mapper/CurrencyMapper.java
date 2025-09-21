@@ -5,10 +5,12 @@ import ru.sidorov.currencyproject.dto.CurrencyRequestDto;
 import ru.sidorov.currencyproject.dto.CurrencyResponseDto;
 import ru.sidorov.currencyproject.entity.Currency;
 
+import java.time.LocalDateTime;
+
 @Component
 public class CurrencyMapper {
     public CurrencyResponseDto toCurrencyDto(Currency currency) {
-        return new CurrencyResponseDto(currency.getCode(), currency.getName(), currency.getCode() + " - " + currency.getName());
+        return new CurrencyResponseDto(currency.getCode(), currency.getName(), currency.getCode() + " - " + currency.getName(), LocalDateTime.now());
     }
 
     public Currency toCurrency(CurrencyRequestDto dto) {

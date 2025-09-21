@@ -30,7 +30,8 @@ public class ExchangeRateMapper {
     public ExchangeRateResponseDto toExchangeRateResponseDto(ExchangeRate exchangeRate) {
         return new ExchangeRateResponseDto(
                 exchangeRate.getCurrency().getName(),
-                exchangeRate.getRate()
+                exchangeRate.getRate(),
+                LocalDateTime.now()
         );
     }
 }
